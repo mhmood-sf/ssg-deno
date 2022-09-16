@@ -114,15 +114,15 @@ export function create(): SiteData {
 
     // TODO: Write this properly!
     getQualifiedURL(resource: string): string {
-        // In debug mode (i.e when we're locally serving the site
-        // built, from the ./output directory), we just append the
-        // absolute path to the resource. Otherwise, we append the
-        // site url when building for production.
-        if (Deno.env.get("DEBUG")) {
-            return this.path + "/output/" + resource;
-        } else {
-            return this.url + resource;
-        }
-    }
+      // In debug mode (i.e when we're locally serving the site
+      // built, from the ./output directory), we just append the
+      // absolute path to the resource. Otherwise, we append the
+      // site url when building for production.
+      if (Deno.env.get("DEBUG")) {
+        return this.path + "/output/" + resource;
+      } else {
+        return this.url + resource;
+      }
+    },
   };
 }

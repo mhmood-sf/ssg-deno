@@ -99,7 +99,7 @@ async function buildSite() {
       }
 
       // Copy over static files.
-      log("Copying static files...")
+      log("Copying static files...");
       utils.fs.copySync(cwd + "/static", cwd + "/output", { overwrite: true });
     }
 
