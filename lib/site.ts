@@ -1,12 +1,12 @@
-import { Plugin, SiteData } from "./types.ts";
+import { Plugin, SiteData, SiteDataOptions } from "./types.ts";
 import * as utils from "./utils.ts";
 
 // Create a new SiteData object.
-export function create(): SiteData {
+export function create(opts: SiteDataOptions): SiteData {
   return {
-    url: "localhost",
+    url: opts.url || "localhost",
 
-    path: Deno.cwd(),
+    path: opts.path || Deno.cwd(),
 
     content: new Map(),
 
@@ -30,7 +30,7 @@ export function create(): SiteData {
     data: new Map(),
 
     async load(): Promise<void> {
-      const cwd = Deno.cwd();
+      const cwd = this.path;
 
       // Load content files.
       const contentPaths = utils.recReadDirSync(cwd + "/content");

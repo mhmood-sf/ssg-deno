@@ -12,6 +12,12 @@ export type PageData = {
   data: Map<string, any>;
 };
 
+// Initial options for the SiteData object.
+export type SiteDataOptions = {
+  url: string;
+  path: string;
+};
+
 // Templates have access to the site data and the current page
 // being rendered by the template. The output is an HTML string.
 export type Template = (site: SiteData, page: PageData) => HTML;
