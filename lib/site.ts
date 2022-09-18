@@ -115,7 +115,7 @@ export function create(opts: SiteDataOptions): SiteData {
     },
 
     // TODO: Write this properly!
-    getQualifiedURL(resource: string): string {
+    qualifiedUrlFor(resource: string): string {
       // In debug mode (i.e when we're locally serving the site
       // built, from the ./output directory), we just append the
       // absolute path to the resource. Otherwise, we append the

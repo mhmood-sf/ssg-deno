@@ -87,4 +87,13 @@ export type SiteData = {
 
   // Applies a plugin function to the SiteData.
   apply: (plugin: Plugin) => SiteData;
+
+  // Returns the full absolute URL for a resource.
+  // The input string must be an absolute path from the root
+  // of the project directory. This function will then
+  // prepend the absolute file system path (for the
+  // local webserver) or the website address for production
+  // builds. This method should be used instead of manually
+  // inserting links into templates.
+  qualifiedUrlFor: (resource: string) => string;
 };
