@@ -39,6 +39,14 @@ export type SiteData = {
   // Base url for the site.
   url: string;
 
+  // Path to the directory containing the site's config.ts
+  path: string;
+
+  // List of paths to asset/static files that will later be copied over
+  // directly to the output directory, at the root of the website.
+  // TODO: Unimplemented!
+  assets: string[];
+
   // Content files, usually just the .md files for the site content, as
   // well as any other files that need to be included in the output. Those
   // with parsers are processed, others are ignored. Files prefixed with

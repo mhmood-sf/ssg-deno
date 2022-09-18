@@ -8,6 +8,8 @@ export function create(opts: SiteDataOptions): SiteData {
 
     path: opts.path || Deno.cwd(),
 
+    assets: [],
+
     content: new Map(),
 
     templates: new Map(),
