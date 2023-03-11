@@ -1,5 +1,5 @@
 import { parse } from "https://deno.land/std@0.144.0/flags/mod.ts";
-import { SiteData, utils } from "../lib/mod.ts";
+import { SiteData, utils } from "./mod.ts";
 
 const defaultConfig = `import ssssg from "../lib/mod.ts";
 

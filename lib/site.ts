@@ -4,9 +4,9 @@ import * as utils from "./utils.ts";
 // Create a new SiteData object.
 export function create(opts: SiteDataOptions): SiteData {
   return {
-    url: opts.url || "localhost",
+    url: opts ? opts.url : "localhost",
 
-    path: opts.path || Deno.cwd(),
+    path: opts ? opts.path : Deno.cwd(),
 
     assets: [],
 
@@ -116,15 +116,7 @@ export function create(opts: SiteDataOptions): SiteData {
 
     // TODO: Write this properly!
     qualifiedUrlFor(resource: string): string {
-      // In debug mode (i.e when we're locally serving the site
-      // built, from the ./output directory), we just append the
-      // absolute path to the resource. Otherwise, we append the
-      // site url when building for production.
-      if (Deno.env.get("DEBUG")) {
-        return this.path + "/output/" + resource;
-      } else {
-        return this.url + resource;
-      }
+      return this.path + "/output/" + resource;
     },
   };
 }
