@@ -1,35 +1,27 @@
 import { Plugin, SiteData, SiteDataOptions } from "./types.ts";
 import * as utils from "./utils.ts";
 
-// Create a new SiteData object.
 export function create(opts?: SiteDataOptions): SiteData {
     return {
         url: opts ? opts.url : "localhost",
-
         path: opts ? opts.path : Deno.cwd(),
-
         assets: [],
-
+        data: new Map(),
         content: new Map(),
-
-        templates: new Map(),
-
         pages: new Map(),
-
+        templates: new Map(),
         output: new Map(),
 
-        // We include a default parser for HTML files.
-        parser: new Map([
-            [
-                ".html",
-                (file) => ({
-                    content: file[0],
-                    data: new Map(Object.entries(file[1])),
-                }),
-            ],
-        ]),
+        // We include a default parser for HTML files, which just returns
+        // the file contents without doing anything.
+        parser: new Map([[
+            ".html",
+            (file) => ({
+                content: file[0],
+                data: new Map(Object.entries(file[1])),
+            }),
+        ]]),
 
-        data: new Map(),
 
         async load(): Promise<void> {
             const cwd = this.path;
@@ -37,12 +29,14 @@ export function create(opts?: SiteDataOptions): SiteData {
             // Load content files.
             const contentPaths = utils.recReadDirSync(cwd + "/content");
 
+            // Store every content file into the content map IF
+            // there exists a parser for that content file. For example,
+            // if there is a parser for .html but not .md, then .html
+            // files will be added to the map, and .md files will be
+            // ignored.
             for (const path of contentPaths) {
-                // Get ext name and slice off the '.'
                 const ext = utils.path.extname(path);
 
-                // If we have a parser for that extension then we store
-                // the file into the content map.
                 if (this.parser.has(ext)) {
                     const info = Deno.statSync(path);
                     const contents = Deno.readTextFileSync(path);
@@ -57,6 +51,7 @@ export function create(opts?: SiteDataOptions): SiteData {
 
             for (const path of templatePaths) {
                 const ext = utils.path.extname(path);
+
                 if (ext === ".ts") {
                     const template = (await import(path)).default;
                     const key = path.slice((cwd + "/templates").length);
@@ -78,10 +73,10 @@ export function create(opts?: SiteDataOptions): SiteData {
         },
 
         build(): void {
-            // put pagedata into templates and set stuff into output.
+            // Put pagedata into templates and set stuff into output.
             for (const [path, page] of this.pages.entries()) {
-                const ext = utils.path.extname(path);
                 // Replace page extension with .ts extension.
+                const ext = utils.path.extname(path);
                 const templatePath = path.slice(0, path.length - ext.length);
                 const pageTemplate = this.templates.get(templatePath + ".ts");
 
@@ -96,6 +91,7 @@ export function create(opts?: SiteDataOptions): SiteData {
                     utils.path.dirname(path),
                     "_default.ts",
                 );
+
                 const defaultTemplate = this.templates.get(defaultPath);
 
                 if (defaultTemplate !== undefined) {
@@ -114,6 +110,7 @@ export function create(opts?: SiteDataOptions): SiteData {
             return this;
         },
 
+        // TODO: This doesn't do anything rn lol.
         qualifiedUrlFor(resource: string): string {
             return resource;
         },
