@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.178.0/http/mod.ts";
-import { lookup } from "https://deno.land/x/media_types/mod.ts";
+import { contentType } from "https://deno.land/std@0.178.0/media_types/mod.ts";
 
 import { parse } from "https://deno.land/std@0.144.0/flags/mod.ts";
 import { SiteData, utils } from "./mod.ts";
@@ -17,6 +17,44 @@ export default async () => {
 
     return site;
 };`;
+
+const defaultNotFound =
+`<!DOCTYPE html>
+<html>
+    <head>
+        <title>404</title>
+        <style>
+            body {
+                margin: 10% 0;
+                padding: 0;
+                background-color: #fafafa;
+                font-family: sans-serif;
+                text-align: center;
+                width: 100%;
+            }
+
+            p {
+                font-size: 1.1em;
+            }
+
+            a {
+                text-decoration: none;
+                color: deepskyblue;
+                font-size: 1.1em;
+            }
+
+            a:hover {
+                color: dodgerblue;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>404: Not Found</h1>
+        <p>The resource you requested was not found.</p>
+        <a href="/">Return home</a>
+    </body>
+</html>
+`;
 
 const { log, error } = console;
 
@@ -147,23 +185,35 @@ async function serveSite() {
     const BASE_PATH = "./output";
 
     const reqHandler = async (req: Request) => {
-        const filePath = BASE_PATH + new URL(req.url).pathname;
-        let fileSize;
+        const urlPath = new URL(req.url).pathname;
+        const filePath = BASE_PATH + (urlPath != "/" ? urlPath : "/index.html");
+        const filePathExt = utils.path.extname(filePath);
+
         try {
-            fileSize = (await Deno.stat(filePath)).size;
+            const fileSize = (await Deno.stat(filePath)).size;
+            const body = (await Deno.open(filePath)).readable;
+
+            return new Response(body, {
+                headers: {
+                    "content-length": fileSize.toString(),
+                    "content-type": contentType(filePathExt) ||
+                        "application/octet-stream",
+                },
+            });
         } catch (e) {
+            // TODO: Return ./output/404.html page if it exists.
             if (e instanceof Deno.errors.NotFound) {
-                return new Response(null, { status: 404 });
+                return new Response(defaultNotFound, {
+                    status: 404,
+                    headers: {
+                        "content-type": contentType(".html") ||
+                            "application/octet-stream"
+                    }
+                });
             }
+
             return new Response(null, { status: 500 });
         }
-        const body = (await Deno.open(filePath)).readable;
-        return new Response(body, {
-            headers: {
-                "content-length": fileSize.toString(),
-                "content-type": lookup(filePath) || "application/octet-stream",
-            },
-        });
     };
 
     await serve(reqHandler, { port });
