@@ -22,7 +22,6 @@ export function create(opts?: SiteDataOptions): SiteData {
             }),
         ]]),
 
-
         async load(): Promise<void> {
             const cwd = this.path;
 
