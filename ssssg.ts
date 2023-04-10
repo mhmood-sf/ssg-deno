@@ -18,8 +18,7 @@ export default async () => {
     return site;
 };`;
 
-const defaultNotFound =
-`<!DOCTYPE html>
+const defaultNotFound = `<!DOCTYPE html>
 <html>
     <head>
         <title>404</title>
@@ -186,7 +185,10 @@ async function serveSite() {
 
     const reqHandler = async (req: Request) => {
         const urlPath = new URL(req.url).pathname;
-        const filePath = BASE_PATH + (urlPath != "/" ? urlPath : "/index.html");
+        const fileTail = urlPath.endsWith("/")
+            ? urlPath + "/index.html"
+            : urlPath;
+        const filePath = BASE_PATH + fileTail;
         const filePathExt = utils.path.extname(filePath);
 
         try {
@@ -207,8 +209,8 @@ async function serveSite() {
                     status: 404,
                     headers: {
                         "content-type": contentType(".html") ||
-                            "application/octet-stream"
-                    }
+                            "application/octet-stream",
+                    },
                 });
             }
 
