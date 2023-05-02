@@ -4,19 +4,17 @@ import { contentType } from "media_types";
 import { parse } from "flags";
 import { SiteData, utils } from "./mod.ts";
 
-const defaultConfig = `import ssssg from "../lib/mod.ts";
+const defaultConfig = `import * as ssg from "../mod.ts";
 
-export default async () => {
-    const site = ssssg.create();
+const site = ssg.init();
 
-    await site.load();
+site.config({
+    title: "My Site"
+})
 
-    site.parse();
-
-    site.build();
-
-    return site;
-};`;
+await site.make();
+export default site;
+`;
 
 const defaultNotFound = `<!DOCTYPE html>
 <html>
