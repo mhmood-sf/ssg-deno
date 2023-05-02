@@ -103,5 +103,5 @@ export type SiteData = {
 
     // Runs each step of the site's build process, while also
     // applying plugins.
-    create: () => Promise<void>;
+    make: () => Promise<void>;
 };

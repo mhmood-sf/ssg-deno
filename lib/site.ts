@@ -1,7 +1,7 @@
 import { Plugin, SiteData, SiteDataOptions } from "./types.ts";
 import * as utils from "./utils.ts";
 
-export function create(opts?: SiteDataOptions): SiteData {
+export function init(opts?: SiteDataOptions): SiteData {
     return {
         url: opts ? opts.url : "localhost",
         path: opts ? opts.path : Deno.cwd(),
@@ -109,7 +109,7 @@ export function create(opts?: SiteDataOptions): SiteData {
             return this;
         },
 
-        async create(): Promise<void> {
+        async make(): Promise<void> {
             const plugins = this.data.get("plugins");
 
             if (plugins.preload) {
