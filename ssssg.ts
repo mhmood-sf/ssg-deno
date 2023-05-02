@@ -1,7 +1,7 @@
-import { serve } from "https://deno.land/std@0.178.0/http/mod.ts";
-import { contentType } from "https://deno.land/std@0.178.0/media_types/mod.ts";
+import { serve } from "http";
+import { contentType } from "media_types";
 
-import { parse } from "https://deno.land/std@0.144.0/flags/mod.ts";
+import { parse } from "flags";
 import { SiteData, utils } from "./mod.ts";
 
 const defaultConfig = `import ssssg from "../lib/mod.ts";

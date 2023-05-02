@@ -1,6 +1,6 @@
-export * as path from "https://deno.land/std@0.144.0/path/mod.ts";
-export * as fs from "https://deno.land/std@0.144.0/fs/mod.ts";
-export * as dom from "https://esm.sh/linkedom";
+export * as path from "path";
+export * as fs from "fs";
+export * as dom from "linkedom";
 
 export function recReadDirSync(path: string): string[] {
     let files: string[] = [];
