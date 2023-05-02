@@ -1,4 +1,4 @@
-import { SiteData } from "../mod.ts";
+import { SiteData } from "../../mod.ts";
 
 export default (site: SiteData) => {
     site.output.forEach((val, key) => {

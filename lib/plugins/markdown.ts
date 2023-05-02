@@ -1,6 +1,6 @@
-import { renderMarkdown } from "https://deno.land/x/markdown_renderer/mod.ts";
-import { extract, test } from "https://deno.land/std/front_matter/any.ts";
-import { SiteData } from "../mod.ts";
+import { renderMarkdown } from "https://deno.land/x/markdown_renderer@0.1.3/mod.ts";
+import { extract, test } from "https://deno.land/std@0.182.0/front_matter/any.ts";
+import { SiteData } from "../../mod.ts";
 
 export default (site: SiteData) => {
     site.parser.set(".md", (file) => {
@@ -19,12 +19,12 @@ export default (site: SiteData) => {
 
             pageData.content = renderMarkdown(
                 extracted.body,
-                site.data.get("markdown-options")
+                site.data.get("markdownOpts")
             );
         } else {
             pageData.content = renderMarkdown(
                 file[0],
-                site.data.get("markdown-options")
+                site.data.get("markdownOpts")
             );
         }
 
