@@ -1,4 +1,13 @@
 {
+    "imports": {
+        "path": "https://deno.land/std@0.178.0/path/mod.ts",
+        "fs": "https://deno.land/std@0.178.0/fs/mod.ts",
+        "linkedom": "https://esm.sh/linkedom@0.14.25",
+        "flags": "https://deno.land/std@0.178.0/flags/mod.ts",
+        "http": "https://deno.land/std@0.178.0/http/mod.ts",
+        "media_types": "https://deno.land/std@0.178.0/media_types/mod.ts"
+    },
+
     "fmt": {
         "options": {
             "useTabs": false,
