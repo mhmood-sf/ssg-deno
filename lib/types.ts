@@ -95,5 +95,13 @@ export type SiteData = {
     // local webserver) or the website address for production
     // builds. This method should be used instead of manually
     // inserting links into templates.
-    qualifiedUrlFor: (resource: string) => string;
+    _qualifiedUrlFor: (resource: string) => string;
+
+    // Data from a JS object is added to the site's data Map,
+    // since it's more convenient.
+    config: (opts: { [key: string]: any }) => void;
+
+    // Runs each step of the site's build process, while also
+    // applying plugins.
+    create: () => Promise<void>;
 };

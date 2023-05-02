@@ -109,8 +109,40 @@ export function create(opts?: SiteDataOptions): SiteData {
             return this;
         },
 
-        // TODO: This doesn't do anything rn lol.
-        qualifiedUrlFor(resource: string): string {
+        async create(): Promise<void> {
+            const plugins = this.data.get("plugins");
+
+            if (plugins.preload) {
+                for (const p of plugins.preload) this.apply(p);
+            }
+
+            await this.load();
+
+            if (plugins.preparse) {
+                for (const p of plugins.preparse) this.apply(p);
+            }
+
+            this.parse();
+
+            if (plugins.prebuild) {
+                for (const p of plugins.prebuild) this.apply(p);
+            }
+
+            this.build();
+
+            if (plugins.postbuild) {
+                for (const p of plugins.postbuild) this.apply(p);
+            }
+        },
+
+        config(opts: { [key: string]: any }): void {
+            for (const [key, val] of Object.entries(opts)) {
+                this.data.set(key, val);
+            }
+        },
+
+        // TODO: Full implementation.
+        _qualifiedUrlFor(resource: string): string {
             return resource;
         },
     };
