@@ -1,4 +1,5 @@
 test/
+site/
 deno.lock
 TODO.md
 deno.json*
