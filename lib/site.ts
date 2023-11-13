@@ -3,8 +3,8 @@ import * as utils from "./utils.ts";
 
 export function init(opts?: SiteDataOptions): SiteData {
     return {
-        url: opts ? opts.url : "localhost",
-        path: opts ? opts.path : Deno.cwd(),
+        url: opts && opts.url ? opts.url : "localhost",
+        path: opts && opts.path ? opts.path : Deno.cwd(),
         assets: [],
         data: new Map(),
         content: new Map(),
