@@ -76,7 +76,7 @@ switch (cmd) {
 
     default: {
         if (args.v || args.version) {
-            log("ssssg v0.1.0");
+            log("ssg v0.1.0");
         } else {
             showHelp();
         }
@@ -85,21 +85,21 @@ switch (cmd) {
 
 function showHelp() {
     log(
-        "%c ssssg %c - A ssstatic site generator",
+        "%c ssg %c - A static site generator",
         "color: mediumslateblue; font-weight: bold",
         "color: default",
     );
     log("");
     log("%cUSAGE:", "font-weight: bold");
-    log("    ssssg <SUBCOMMAND> [FLAGS]");
+    log("    ssg <SUBCOMMAND> [FLAGS]");
     log("");
     log("%cFLAGS:", "font-weight: bold");
     log("    -h, --help         Show this help message.");
-    log("    -v, --version      Show ssssg version information.");
+    log("    -v, --version      Show ssg version information.");
     log("");
     log("%cSUBCOMMANDS:", "font-weight: bold");
     log("    help               Show help message for the given subcommand.");
-    log("    init [name]        Create a new ssssg site.");
+    log("    init [name]        Create a new ssg site.");
     log(
         "    build              Deletes output directory (if there is one) and builds the site.",
     );
@@ -179,12 +179,12 @@ async function serveSite() {
     const port = args.p || args.port || 8080;
 
     // Source: https://medium.com/deno-the-complete-reference/a-beginners-guide-to-building-a-static-file-server-in-deno-a4d12745d233
-    const BASE_PATH = "./output";
+    const BASE_PATH = "./site/output";
 
     const reqHandler = async (req: Request) => {
         const urlPath = new URL(req.url).pathname;
         const fileTail = urlPath.endsWith("/")
-            ? urlPath + "/index.html"
+            ? urlPath + "index.html"
             : urlPath;
         const filePath = BASE_PATH + fileTail;
         const filePathExt = utils.path.extname(filePath);
