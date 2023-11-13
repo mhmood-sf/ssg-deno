@@ -1,3 +1,4 @@
 test/
 deno.lock
 TODO.md
+deno.json*

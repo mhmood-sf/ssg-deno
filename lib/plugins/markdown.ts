@@ -9,6 +9,8 @@ export default (site: SiteData) => {
             data: new Map(Object.entries(file[1]))
         }
 
+        // test() checks if front-matter is present.
+        // If so, we parse it.
         if (test(file[0])) {
             const extracted = extract(file[0]);
             const frontMatter = extracted.attrs;

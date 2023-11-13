@@ -1,3 +1,3 @@
-# ssssg
+# ssg-deno
 
-A **sss**tatic **s**ite **g**enerator.
+A static site generator. Powered by deno.
